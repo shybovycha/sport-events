@@ -1,0 +1,21 @@
+development:
+  adapter: mysql2
+  host: localhost
+  username: root
+  password: abcABC123
+  database: sport_events
+
+test:
+  adapter: mysql2
+  host: localhost
+  username: root
+  password: abcABC123
+  database: sport_events_test
+
+production:
+  adapter: mysql2
+  development:
+  host: localhost
+  username: root
+  password: abcABC123
+  database: sport_events
