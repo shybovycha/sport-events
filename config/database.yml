@@ -15,4 +15,4 @@ test:
 production:
   adapter: postgresql
   encoding: utf8
-  url: postgres://uaucyfepzogytr:LRe20SW0o5wcu4dDsYwcOGZkOb@ec2-54-246-86-137.eu-west-1.compute.amazonaws.com:5432/d5ho825emtok6j
+  url: postgres://vuihglzcevoaet:R_42GIPAgluLLy4CO2y2Nds9Ch@ec2-54-246-86-137.eu-west-1.compute.amazonaws.com:5432/d74qqi5pg4errr
