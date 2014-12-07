@@ -13,9 +13,6 @@ test:
   database: sport_events_test
 
 production:
-  adapter: mysql2
-  development:
-  host: localhost
-  username: root
-  password: abcABC123
-  database: sport_events
+  adapter: postgresql
+  encoding: utf8
+  url: postgres://uaucyfepzogytr:LRe20SW0o5wcu4dDsYwcOGZkOb@ec2-54-246-86-137.eu-west-1.compute.amazonaws.com:5432/d5ho825emtok6j
