@@ -18,16 +18,17 @@ module EventsApi
         expose :description
         expose :lat
         expose :lng
+        expose :address
         expose :sport
 
-        expose :user, as: :author, using: Entities::User
+        expose :users, as: :visitors, using: Entities::User
 
         with_options(format_with: :iso_timestamp) do
           expose :created_at
         end
 
         def self.format(collection)
-          collection.map { |e| Entities::LostAlert.new(e) }
+          collection.map { |e| Entities::Event.new(e) }
         end
       end
     end
@@ -65,7 +66,27 @@ module EventsApi
 
         events = events.near [ params[:lat].to_f, params[:lng].to_f ], params[:radius].to_f, :units => :km
 
-        { success: true, events: events }
+        { success: true, events: Entities::Event.format(events) }
+      end
+
+      desc "creates an event"
+      params do
+        requires :api_key, type: String, desc: "API key"
+        requires :title, type: String, desc: "Event title"
+        requires :description, type: String, desc: "Event description"
+        requires :address, type: String, desc: "Address, or where the event will be going"
+        requires :sport, type: String, desc: "Event' sport type"
+      end
+      post '/create' do
+        authenticate!
+
+        event = Event.new title: params[:title], description: params[:description], address: params[:address], sport: params[:sport]
+
+        if event.save and get_user.events << event
+          { success: true, event_id: event.id }
+        else
+          { success: false, message: event.errors.full_messages.join('; ') }
+        end
       end
     end
   end

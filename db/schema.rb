@@ -24,6 +24,11 @@ ActiveRecord::Schema.define(version: 20141206201946) do
     t.string   "address"
   end
 
+  create_table "events_users", force: true do |t|
+    t.integer "event_id"
+    t.integer "user_id"
+  end
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "address"
@@ -44,10 +49,5 @@ ActiveRecord::Schema.define(version: 20141206201946) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "users_events", force: true do |t|
-    t.integer "user_id"
-    t.integer "event_id"
-  end
 
 end
