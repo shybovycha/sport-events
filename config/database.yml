@@ -13,6 +13,9 @@ test:
   database: sport_events_test
 
 production:
-  adapter: postgresql
-  encoding: utf8
-  url: postgres://vuihglzcevoaet:R_42GIPAgluLLy4CO2y2Nds9Ch@ec2-54-246-86-137.eu-west-1.compute.amazonaws.com:5432/d74qqi5pg4errr
+  adapter: sqlite3
+  pool: 5
+  timeout: 3000 
+  database: db/production.sqlite3
+  #encoding: utf8
+  #url: postgres://vuihglzcevoaet:R_42GIPAgluLLy4CO2y2Nds9Ch@ec2-54-246-86-137.eu-west-1.compute.amazonaws.com:5432/d74qqi5pg4errr
