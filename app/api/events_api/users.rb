@@ -4,6 +4,14 @@ module EventsApi
     content_type :json, 'application/json; charset=utf-8'
 
     resource :users do
+      desc "test"
+      params do
+        requires :moo, type: String
+      end
+      get '/' do
+        { success: true, message: 'test ok' }
+      end
+
       desc "registers a user"
       params do
         requires :name, type: String, desc: "user name"

@@ -55,11 +55,11 @@ module EventsApi
         requires :lat, type: Float, desc: "center latitude"
         requires :lng, type: Float, desc: "center longitude"
         requires :radius, type: Float, desc: "distance from center to search for, km"
-        optional :sports, type: Array, desc: "sport types to search for"
+        optional :sports, type: String, desc: "sport types to search for"
       end
       get '/' do
         if params[:sports].present?
-          events = Event.where(:sport => params[:sports])
+          events = Event.where(:sport => params[:sports].split(','))
         else
           events = Event.all
         end
