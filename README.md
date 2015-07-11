@@ -16,6 +16,10 @@ split by semicolon sign `;`.
 
 ### `POST /users/sign_up`
 
+**Description:**
+
+Creates a new user in database. Used on first application run, when user does not have an account.
+
 **Params:**
 * **name**, String, required
 * **email**, String, required
@@ -28,6 +32,10 @@ split by semicolon sign `;`.
 
 ### `POST /users/sign_in`
 
+**Description:**
+
+User logging in. Used on first application run, when user has an account already.
+
 **Params:**
 
 * *email*, String, required
@@ -39,6 +47,10 @@ split by semicolon sign `;`.
 
 ### `POST /users/restore_session`
 
+**Description:**
+
+Logs user in after application was closed. Does not require user's credentials and login form - the `api_key` only, which must be stored in application's data, after user logs in or account created.
+
 **Params:**
 
 * **api_key**, String, required
@@ -49,11 +61,15 @@ split by semicolon sign `;`.
 
 ### `GET /events`
 
+**Description:**
+
+Returns a list of events around the location.
+
 **Params:**
 
 * **lat**, Float, required
 * **lng**, Float, required
-* **lng**, Radius, required
+* **radius**, Radius, required
 * **sports**, [String], required
 
 **Returns:**
@@ -77,6 +93,10 @@ An array of these structures:
     }
 
 ### `POST /events/create`
+
+**Description:**
+
+Creates a new event in the system.
 
 **Params:**
 
