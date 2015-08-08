@@ -52,9 +52,8 @@ module EventsApi
     resource :events do
       desc "gets all the events for the specified query params"
       params do
-        requires :lat, type: Float, desc: "center latitude"
-        requires :lng, type: Float, desc: "center longitude"
-        requires :radius, type: Float, desc: "distance from center to search for, km"
+        requires :address, type: String, desc: "user's address, to search around it"
+        optional :radius, type: Float, desc: "distance from center to search for, km"
         optional :sports, type: String, desc: "sport types to search for"
       end
       get '/' do
@@ -64,7 +63,9 @@ module EventsApi
           events = Event.all
         end
 
-        events = events.near [ params[:lat].to_f, params[:lng].to_f ], params[:radius].to_f, :units => :km
+        radius = params[:radius] || 20
+
+        events = events.near params[:address], radius.to_f, :units => :km
 
         { success: true, events: Entities::Event.format(events) }
       end
