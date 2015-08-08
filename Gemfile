@@ -18,6 +18,8 @@ gem 'geocoder'
 # disable strong-params in the Grape's advantage
 gem 'hashie_rails'
 
+gem 'jaro_winkler'
+
 group :production do
   gem "pg"
 end

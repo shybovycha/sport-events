@@ -64,13 +64,15 @@ Logs user in after application was closed. Does not require user's credentials a
 **Description:**
 
 Returns a list of events around the location.
+Query - a set of keywords, divided by spaces.
+Sports - list of sports desired, separated by a comma.
 
 **Params:**
 
-* **lat**, Float, required
-* **lng**, Float, required
-* **radius**, Radius, required
-* **sports**, [String], required
+* **address**, String, required
+* **query**, Float, optional
+* **radius**, Radius, optional
+* **sports**, String, optional
 
 **Returns:**
 
