@@ -1,7 +1,8 @@
 puts "Creating sample users..."
 
 api_key, email, password = 'moofoo', 'moo@foo.bar', 'moofoo'
-u = User.create(name: 'test', address: 'test123', api_key: 'moofoo', email: 'moo@foo.bar', password: 'moofoo', password_confirmation: 'moofoo')
+u = User.create(name: 'test', address: 'test123', email: 'moo@foo.bar', password: 'moofoo', password_confirmation: 'moofoo')
+u.update_attribute :api_key, api_key
 
 puts "Users registered: #{User.count}"
 puts "You are welcome to use #{email} (password: #{password}, API key: #{api_key}) for dealing with API"
@@ -21,12 +22,14 @@ locations = [
 10.times do |i|
   loc = locations.sample
   title = titles.sample(rand(4) + 1).join(' ')
+  time = rand(200).hours.from_now
 
   params = {
     title: title,
     sport: sports.sample,
     lat: loc[0],
-    lng: loc[1]
+    lng: loc[1],
+    planned_time: time
   }
 
   Event.create params

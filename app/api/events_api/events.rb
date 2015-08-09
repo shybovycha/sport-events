@@ -11,7 +11,7 @@ module EventsApi
 
       # Base entity
       class Event < Grape::Entity
-        format_with(:iso_timestamp) { |dt| dt.iso8601 }
+        format_with(:iso_timestamp) { |dt| dt.strftime(::Event::DATE_FORMAT) }
 
         expose :id
         expose :title
@@ -25,10 +25,19 @@ module EventsApi
 
         with_options(format_with: :iso_timestamp) do
           expose :created_at
+          expose :starts_at
         end
 
         def self.format(collection)
           collection.map { |e| Entities::Event.new(e) }
+        end
+      end
+
+      class GroupedEvent < Event
+        expose :group
+
+        def self.format(collection)
+          collection.map { |e| Entities::GroupedEvent.new(e) }
         end
       end
     end
@@ -56,13 +65,18 @@ module EventsApi
         optional :radius, type: Float, desc: "distance from center to search for, km"
         optional :sports, type: String, desc: "sport types to search for"
         optional :query, type: String, desc: "a set of keywords to search in events' titles"
+        optional :group_by, type: String, desc: "grouping field"
       end
       get '/' do
         events = Event.by_sports(params[:sports])
           .by_address(params[:address], params[:radius])
-          .relevant_to(params[:query])
 
-        { success: true, events: Entities::Event.format(events) }
+        events = EventsFormatter.new(events)
+          .grouped_by(params[:group_by])
+          .relevant_to(params[:query])
+          .events
+
+        { success: true, events: Entities::GroupedEvent.format(events) }
       end
 
       desc "creates an event"

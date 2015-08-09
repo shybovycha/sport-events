@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206201946) do
+ActiveRecord::Schema.define(version: 20150809121442) do
 
   create_table "events", force: true do |t|
     t.string   "title"
@@ -22,7 +22,10 @@ ActiveRecord::Schema.define(version: 20141206201946) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "address"
+    t.datetime "starts_at",              null: false
   end
+
+  add_index "events", ["title"], name: "idx_title_fulltext", type: :fulltext
 
   create_table "events_users", force: true do |t|
     t.integer "event_id"
