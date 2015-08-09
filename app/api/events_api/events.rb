@@ -58,28 +58,9 @@ module EventsApi
         optional :query, type: String, desc: "a set of keywords to search in events' titles"
       end
       get '/' do
-        if params[:sports].present?
-          events = Event.where(:sport => params[:sports].split(','))
-        else
-          events = Event.all
-        end
-
-        radius = params[:radius] || 20
-
-        events = events.near params[:address], radius.to_f, :units => :km
-
-        if params[:query]
-          split_re = /\W+/
-          query_words = params[:query].split(split_re)
-
-          events.sort_by do |evt|
-            title_words = evt.title.split(split_re)
-            combinations = title_words.product(query_words)
-            coefficients = combinations.map { |pair| JaroWinkler.distance(pair.first, pair.last, ignore_case: true) }
-
-            coefficients.max
-          end
-        end
+        events = Event.by_sports(params[:sports])
+          .by_address(params[:address], params[:radius])
+          .relevant_to(params[:query])
 
         { success: true, events: Entities::Event.format(events) }
       end
