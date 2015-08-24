@@ -29,7 +29,7 @@ locations = [
     sport: sports.sample,
     lat: loc[0],
     lng: loc[1],
-    planned_time: time
+    starts_at: time
   }
 
   Event.create params
