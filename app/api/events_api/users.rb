@@ -46,6 +46,22 @@ module EventsApi
         end
       end
 
+      desc "logs a user in with facebook"
+      params do
+        requires :facebook_id, type: String, desc: "facebook user id"
+        requires :email, type: String, desc: "email"
+        requires :name, type: String, desc: "user name"
+      end
+      post :facebook_sign_in do
+        user = FacebookUser.find_or_create_by(facebook_id: params[:facebook_id], email: params[:email], name: params[:name])
+
+        if user.present?
+          { success: true, api_key: user.api_key }
+        else
+          { success: false, message: "could not sign in with facebook" }
+        end
+      end
+
       desc "restores a session"
       params do
         requires :api_key, type: String, desc: "user' API key, stored in a local client's database"
