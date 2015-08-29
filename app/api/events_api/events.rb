@@ -98,6 +98,38 @@ module EventsApi
           { success: false, message: event.errors.full_messages.join('; ') }
         end
       end
+
+      desc "joins current user to an event"
+      params do
+        requires :api_key, type: String, desc: "API key"
+        requires :event_id, type: String, desc: "Event ID to be joined to"
+      end
+      get '/join' do
+        event = Event.find(params[:event_id])
+        current_user = get_user
+
+        if event and event.users << current_user
+          { success: true }
+        else
+          { success: false }
+        end
+      end
+
+      desc "leaves current user from an event"
+      params do
+        requires :api_key, type: String, desc: "API key"
+        requires :event_id, type: String, desc: "Event ID to be left"
+      end
+      get '/leave' do
+        event = Event.find(params[:event_id])
+        current_user = get_user
+
+        if event and event.users.delete current_user
+          { success: true }
+        else
+          { success: false }
+        end
+      end
     end
   end
 end
