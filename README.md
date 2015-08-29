@@ -111,3 +111,33 @@ Creates a new event in the system.
 **Returns:**
 
 *nothing*
+
+### `GET /events/join`
+
+**Description:**
+
+Joins current user to an event, so he will appear in `visitors` list of event.
+
+**Params:**
+
+* **api_key**, String, required
+* **event_id**, String, required
+
+**Returns:**
+
+*nothing*
+
+### `GET /events/leave`
+
+**Description:**
+
+Removes current user from event attendees, so he will **not** appear in `visitors` list of event.
+
+**Params:**
+
+* **api_key**, String, required
+* **event_id**, String, required
+
+**Returns:**
+
+*nothing*
