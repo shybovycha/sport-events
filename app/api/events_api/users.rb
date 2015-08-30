@@ -4,12 +4,46 @@ module EventsApi
     content_type :json, 'application/json; charset=utf-8'
 
     resource :users do
-      desc "test"
+      desc "gets user account data"
       params do
-        requires :moo, type: String
+        requires :api_key, type: String, desc: "API key"
       end
       get '/' do
-        { success: true, message: 'test ok' }
+        user = User.find_by(api_key: params[:api_key])
+
+        if user
+          {
+            success: true,
+            address: user.address,
+            name: user.name,
+            email: user.email,
+            facebook_id: user.facebook_id,
+            sports: user.sports
+          }
+        else
+          { success: false }
+        end
+      end
+
+      desc "updates user's account data"
+      params do
+        requires :api_key, type: String, desc: "API key"
+        optional :name, type: String, desc: "new user name"
+        optional :address, type: String, desc: "new address"
+        optional :sports, type: String, desc: "new sport favorites"
+      end
+      post :update do
+        user = User.find_by(api_key: params[:api_key])
+
+        user_params = params.extract! *[ :name, :address, :sports ]
+
+        user.assign_attributes user_params
+
+        if user.save
+          { success: true, api_key: user.api_key }
+        else
+          { success: false, message: user.errors.full_messages.join(' and ') }
+        end
       end
 
       desc "registers a user"

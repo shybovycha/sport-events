@@ -79,6 +79,19 @@ module EventsApi
         { success: true, events: Entities::GroupedEvent.format(events) }
       end
 
+      desc "gets all the events for the specified user"
+      params do
+        requires :api_key, type: String, desc: "API key"
+        optional :group_by, type: String, desc: "grouping field"
+      end
+      get :for_user do
+        events = EventsFormatter.new(get_user.events)
+          .grouped_by(params[:group_by])
+          .events
+
+        { success: true, events: Entities::GroupedEvent.format(events) }
+      end
+
       desc "creates an event"
       params do
         requires :api_key, type: String, desc: "API key"

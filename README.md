@@ -14,6 +14,41 @@ additional information, method may return.
 When everything is bad, method returns JSON `{ success: false, message: "..." }`. And the `message` field contains all the errors
 split by semicolon sign `;`.
 
+### `GET /users`
+
+**Description:**
+
+Gets user's account data.
+
+**Params:**
+* **api_key**, String, required
+
+**Returns:**
+
+    {
+      name: String,
+      email: String,
+      address: String,
+      facebook_id: String,
+      sports: String (joined by comma)
+    }
+
+### `POST /users/update`
+
+**Description:**
+
+Updates user's account data with the new values.
+
+**Params:**
+* **api_key**, String, required
+* **name**, String, required
+* **email**, String, required
+* **address**, String, required
+
+**Returns:**
+
+*nothing*
+
 ### `POST /users/sign_up`
 
 **Description:**
@@ -91,8 +126,44 @@ An array of these structures:
                 name: String
             }
         ],
-        created_at: DateTime
+        created_at: DateTime,
+        starts_at: DateTime
     }
+
+In case of grouping with `group_by` field:
+
+    {
+      group: String,
+      id: Integer,
+      title: String,
+      description: String,
+      lat: Float,
+      lng: Float,
+      address: String,
+      sport: String,
+      visitors: [
+          {
+              name: String
+          }
+      ],
+      created_at: DateTime,
+      starts_at: DateTime
+    }
+
+### `GET /events/for_user`
+
+**Description:**
+
+Returns a list of events for the specified user.
+
+**Params:**
+
+* **api_key**, String, required
+* **group_by**, String, optional
+
+**Returns:**
+
+Returns data in the same format as for `GET /events`
 
 ### `POST /events/create`
 
