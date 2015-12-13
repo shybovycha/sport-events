@@ -69,7 +69,7 @@ module EventsApi
       end
       get '/' do
         events = Event.by_sports(params[:sports])
-          .by_address(params[:address], params[:radius])
+#          .by_address(params[:address], params[:radius])
 
         events = EventsFormatter.new(events)
           .grouped_by(params[:group_by])
@@ -99,11 +99,12 @@ module EventsApi
         requires :description, type: String, desc: "Event description"
         requires :address, type: String, desc: "Address, or where the event will be going"
         requires :sport, type: String, desc: "Event' sport type"
+        requires :starts_at, type: String, desc: "Event' start date and time"
       end
       post '/create' do
         authenticate!
 
-        event = Event.new title: params[:title], description: params[:description], address: params[:address], sport: params[:sport]
+        event = Event.new title: params[:title], description: params[:description], address: params[:address], sport: params[:sport], starts_at: params[:starts_at]
 
         if event.save and get_user.events << event
           { success: true, event_id: event.id }

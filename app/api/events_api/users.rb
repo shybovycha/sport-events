@@ -32,12 +32,12 @@ module EventsApi
         optional :address, type: String, desc: "new address"
         optional :sports, type: String, desc: "new sport favorites"
       end
-      post :update do
+      post '/update' do
         user = User.find_by(api_key: params[:api_key])
 
         user_params = params.extract! *[ :name, :address, :sports ]
 
-        user.assign_attributes user_params
+        user.update_attributes user_params
 
         if user.save
           { success: true, api_key: user.api_key }
@@ -53,7 +53,7 @@ module EventsApi
         requires :password, type: String, desc: "password"
         requires :password_confirmation, type: String, desc: "password confirmation"
       end
-      post :sign_up do
+      post '/sign_up' do
         user = User.new(name: params[:name], email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation])
 
         if user.save
@@ -68,7 +68,7 @@ module EventsApi
         requires :email, type: String, desc: "email"
         requires :password, type: String, desc: "password"
       end
-      post :sign_in do
+      post '/sign_in' do
         user = User.find_by(email: params[:email])
 
         if user.present? and user.valid_password?(params[:password])
@@ -86,7 +86,7 @@ module EventsApi
         requires :email, type: String, desc: "email"
         requires :name, type: String, desc: "user name"
       end
-      post :facebook_sign_in do
+      post '/facebook_sign_in' do
         user = FacebookUser.find_or_create_by(facebook_id: params[:facebook_id], email: params[:email], name: params[:name])
 
         if user.present?
@@ -100,7 +100,7 @@ module EventsApi
       params do
         requires :api_key, type: String, desc: "user' API key, stored in a local client's database"
       end
-      post :restore_session do
+      post '/restore_session' do
         user = User.find_by(api_key: params[:api_key])
 
         if user.present?

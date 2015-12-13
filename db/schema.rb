@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 20150830145013) do
     t.datetime "starts_at",              null: false
   end
 
+  add_index "events", ["title"], name: "idx_title_fulltext", type: :fulltext
+
   create_table "events_users", force: true do |t|
     t.integer "event_id"
     t.integer "user_id"
