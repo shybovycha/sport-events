@@ -18,7 +18,8 @@ module EventsApi
             name: user.name,
             email: user.email,
             facebook_id: user.facebook_id,
-            sports: user.sports
+            sports: user.sports,
+            events: user.events.pluck(:id)
           }
         else
           { success: false }
